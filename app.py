@@ -2,11 +2,27 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 import cv2
+import os
+import gdown
 from PIL import Image
 
-file_id = "1_9Q28QeJXnyRCH18IVxpX5KhuDtZC40c"
-url = 'https://drive.google.com/file/d/1CBvo-TM9fXONvwNfjG-pEvtmkF5KEMID/view?usp=sharing'
-model_path = "trained_plant_disease_model.ker"
+# Model path
+model_path = "trained_plant_disease_model.keras"
+gdrive_url = "https://drive.google.com/uc?id=13FPoqxOZE9_V_zP6cErcVfaBm7tulBf5"  # Modified Google Drive link
+
+# Function to download the model if not found
+def download_model():
+    if not os.path.exists(model_path):
+        st.warning("📥 Downloading model from Google Drive... ⏳")
+        try:
+            gdown.download(gdrive_url, model_path, quiet=False)
+            st.success("✅ Model downloaded successfully!")
+        except Exception as e:
+            st.error(f"⚠ Model download failed: {e}")
+
+# *Call download_model() before loading*
+download_model()
+
 # Load the trained model once and cache it
 @st.cache_resource()
 def load_model():
@@ -38,9 +54,6 @@ def model_prediction(image, model):
         # Resize image to match model input size (128x128)
         img_resized = cv2.resize(img_array, (128, 128))
 
-        # Normalize pixel values to range [0,1]
-        
-
         # Expand dimensions to create a batch of size 1
         img_expanded = np.expand_dims(img_resized, axis=0)
 
@@ -68,7 +81,8 @@ elif app_mode == "🔬 DISEASE RECOGNITION":
 
     if test_image is not None:
         image = Image.open(test_image).convert("RGB")  # Convert to RGB format
-        st.image(image, caption="📷 Uploaded Image", use_column_width=True)
+        st.image(image, caption="📷 Uploaded Image", use_container_width=True)
+
 
         if st.button("🔍 Predict"):
             if model is None:
@@ -82,12 +96,12 @@ elif app_mode == "🔬 DISEASE RECOGNITION":
 
                 if result_index is not None:
                     # Display Result
-                    st.success(f"🩺 *Prediction:* {CLASS_NAMES[result_index]} ({confidence:.2f}% Confidence)")
+                    st.success(f"🩺 Prediction: {CLASS_NAMES[result_index]} ({confidence:.2f}% Confidence)")
 
                     # Show confidence as progress bar
                     st.progress(int(confidence))
                 else:
                     st.error("❌ Prediction failed.")
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     st.write("✅ Ready for Predictions")
