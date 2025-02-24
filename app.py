@@ -4,6 +4,9 @@ import numpy as np
 import cv2
 from PIL import Image
 
+file_id = "1_9Q28QeJXnyRCH18IVxpX5KhuDtZC40c"
+url = 'https://drive.google.com/file/d/1CBvo-TM9fXONvwNfjG-pEvtmkF5KEMID/view'
+model_path = "trained_plant_disease_model.keras"
 # Load the trained model once and cache it
 @st.cache_resource()
 def load_model():
