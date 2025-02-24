@@ -103,5 +103,5 @@ elif app_mode == "🔬 DISEASE RECOGNITION":
                 else:
                     st.error("❌ Prediction failed.")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     st.write("✅ Ready for Predictions")
