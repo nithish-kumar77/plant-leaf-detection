@@ -5,7 +5,7 @@ import cv2
 from PIL import Image
 
 file_id = "1_9Q28QeJXnyRCH18IVxpX5KhuDtZC40c"
-url = 'https://drive.google.com/file/d/1CBvo-TM9fXONvwNfjG-pEvtmkF5KEMID/view'
+url = 'https://drive.google.com/file/d/1CBvo-TM9fXONvwNfjG-pEvtmkF5KEMID/view?usp=sharing'
 model_path = "trained_plant_disease_model.ker"
 # Load the trained model once and cache it
 @st.cache_resource()
